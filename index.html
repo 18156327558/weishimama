@@ -1,325 +1,378 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>韦史妈妈</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 800px;
-            width: 100%;
-            margin: 20px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            height: 90vh;
-        }
-        
-        .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-        }
-        
-        .chat-header h1 {
-            font-size: 20px;
-            font-weight: 500;
-        }
-        
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .message {
-            display: flex;
-            align-items: flex-start;
-            max-width: 80%;
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-        
-        .message-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-            margin: 0 10px;
-            flex-shrink: 0;
-        }
-        
-        .message-bubble {
-            background: #f0f0f0;
-            padding: 12px 16px;
-            border-radius: 18px;
-            max-width: 70%;
-            position: relative;
-        }
-        
-        .message.user .message-bubble {
-            background: #667eea;
-            color: white;
-        }
-        
-        .message-content {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .message-time {
-            font-size: 11px;
-            color: #999;
-            margin-top: 5px;
-            text-align: right;
-        }
-        
-        .message.user .message-time {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .input-container {
-            padding: 15px 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            gap: 10px;
-            background: #f9f9f9;
-        }
-        
-        .message-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        
-        .message-input:focus {
-            border-color: #667eea;
-        }
-        
-        .send-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 12px 25px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .send-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .status {
-            text-align: center;
-            padding: 8px;
-            font-size: 12px;
-            color: #666;
-            background: #f8f9fa;
-        }
-        
-        .typing-indicator {
-            display: none;
-            padding: 10px 15px;
-            color: #666;
-            font-style: italic;
-        }
-        
-        .author-button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 0 20px 15px;
-        }
-        
-        .author-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        @media (max-width: 768px) {
-            .chat-container {
-                margin: 10px auto;
-                border-radius: 10px;
-            }
-            
-            .message-avatar {
-                width: 40px;
-                height: 40px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>韦史妈妈</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F8F9FA;
+      --bg-card: #FFFFFF;
+      --bg-toolbar: #F1F3F5;
+      --fg-primary: #212529;
+      --fg-secondary: #6C757D;
+      --border: #DEE2E6;
+      --accent: #495057;
+      --radius-main: 8px;
+      --radius-bubble: 12px;
+      --radius-input: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes dotBounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-2px); }
+    }
+
+    .chat-bubble { animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+    .thinking-dot { animation: dotBounce 1.2s infinite ease-in-out; }
+    .thinking-dot:nth-child(2) { animation-delay: 0.15s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.3s; }
+
+    .status-dot { animation: pulse 2s infinite ease-in-out; }
+
+    .input-wrapper {
+      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .input-wrapper:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(73, 80, 87, 0.1);
+    }
+
+    .btn-send {
+      transition: all 0.15s ease;
+    }
+
+    .btn-send:hover {
+      background: #495057;
+      transform: translateY(-1px);
+    }
+
+    .btn-send:active { transform: translateY(0); }
+
+    .link-btn {
+      transition: all 0.15s ease;
+    }
+
+    .link-btn:hover {
+      background: #495057;
+      color: #FFFFFF;
+    }
+
+    .toolbar-btn {
+      transition: all 0.15s ease;
+    }
+
+    .toolbar-btn:hover {
+      background: var(--bg-toolbar);
+    }
+
+    .toolbar-btn.active {
+      background: var(--accent);
+      color: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
-<body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>韦史妈妈</h1>
-        </div>
-        
-        <div class="chat-messages" id="chatMessages">
-            <div class="message">
-                <img src="https://t1.chatglm.cn/file/6a772c25803aaa59192dcc58.png?expired_at=1786626992&sign=459373dc3e2c3add3fe6852dac5a819a&ext=png" 
-                     alt="韦史妈妈" 
-                     class="message-avatar">
-                <div class="message-bubble">
-                    <div class="message-content">
-                        你好！我是韦史妈妈，很高兴与你交流。请告诉我你想聊些什么？
-                    </div>
-                    <div class="message-time">刚刚</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="typing-indicator" id="typingIndicator">
-            韦史妈妈正在思考...
-        </div>
-        
-        <div class="input-container">
-            <input type="text" 
-                   class="message-input" 
-                   id="messageInput" 
-                   placeholder="输入你的消息..." 
-                   onkeypress="if(event.key === 'Enter') sendMessage()">
-            <button class="send-button" onclick="sendMessage()">发送</button>
-        </div>
-        
-        <div style="text-align: center;">
-            <button class="author-button" onclick="window.open('https://18156327558.github.io', '_blank')">
-                作者主页
-            </button>
-        </div>
-        
-        <div class="status" id="status">就绪</div>
+<body class="flex items-center justify-center p-4 sm:p-8">
+
+  <div class="relative z-10 w-full max-w-md">
+    <!-- 标题 -->
+    <div class="text-center mb-6">
+      <h1 class="text-xl font-medium tracking-wide" style="color: var(--fg-primary);">
+        韦史妈妈
+      </h1>
+      <div class="w-6 h-0.5 mx-auto mt-2 rounded-full" style="background: var(--accent);"></div>
     </div>
 
-    <script>
-        const API_KEY = 'sk_eRMBgnfo3X3M2yLCPYHetWZtpnerB3Lo';
-        const API_URL = 'https://gen.pollinations.ai/v1';
-        const MODEL = 'YoannDev90/diffusiongemma-26b-a4b-it:free';
-        
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // 添加用户消息
-            addMessage(message, 'user');
-            input.value = '';
-            document.getElementById('status').textContent = '正在思考...';
-            document.getElementById('typingIndicator').style.display = 'block';
-            
-            try {
-                const response = await fetch(`${API_URL}/chat/completions`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [
-                            {
-                                role: 'system',
-                                content: '你是一个友好的AI助手，基于DiffusionGemma模型构建，能够进行自然流畅的对话。'
-                            },
-                            {
-                                role: 'user',
-                                content: message
-                            }
-                        ],
-                        temperature: 0.7,
-                        max_tokens: 500
-                    })
-                });
-                
-                const data = await response.json();
-                const aiResponse = data.choices[0].message.content;
-                
-                // 添加AI消息
-                addMessage(aiResponse, 'ai');
-                document.getElementById('status').textContent = '就绪';
-                document.getElementById('typingIndicator').style.display = 'none';
-                
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('status').textContent = '发生错误，请重试';
-                document.getElementById('typingIndicator').style.display = 'none';
-                addMessage('抱歉，我遇到了一些问题。请稍后再试。', 'ai');
-            }
+    <!-- 聊天卡片 -->
+    <div class="rounded-[8px] overflow-hidden shadow-sm" style="background: var(--bg-card); border: 1px solid var(--border);">
+      <!-- 消息区域 -->
+      <div id="chatArea" class="p-4 space-y-4 max-h-80 overflow-y-auto">
+        <!-- 欢迎消息 -->
+        <div class="chat-bubble">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+              <img src="https://t1.chatglm.cn/file/6a772c25803aaa59192dcc58.png?expired_at=1786977376&sign=c9888e6215e6e4ee51156a493a53a531&ext=png" 
+                   alt="韦史妈妈" 
+                   class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <div class="rounded-[12px] rounded-tl-sm p-3" style="background: var(--bg-secondary);">
+                <p class="text-sm leading-relaxed" style="color: var(--fg-primary);">你好！我是韦史妈妈，很高兴与你交流。请告诉我你想聊些什么？</p>
+              </div>
+              <span class="text-xs mt-1.5 block" style="color: var(--fg-secondary);">刚刚</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 思考中 -->
+        <div id="thinkingBubble" class="chat-bubble hidden">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+              <img src="https://t1.chatglm.cn/file/6a772c25803aaa59192dcc58.png?expired_at=1786977376&sign=c9888e6215e6e4ee51156a493a53a531&ext=png" 
+                   alt="韦史妈妈" 
+                   class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <div class="rounded-[12px] rounded-tl-sm p-3 inline-flex items-center gap-1.5" style="background: var(--bg-secondary);">
+                <span class="thinking-dot w-1.5 h-1.5 rounded-full" style="background: var(--fg-secondary);"></span>
+                <span class="thinking-dot w-1.5 h-1.5 rounded-full" style="background: var(--fg-secondary);"></span>
+                <span class="thinking-dot w-1.5 h-1.5 rounded-full" style="background: var(--fg-secondary);"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 输入区域 -->
+      <div class="px-4 pb-4 pt-2">
+        <div class="flex items-center gap-2">
+          <div class="input-wrapper flex-1 rounded-[8px] overflow-hidden flex items-center">
+            <input 
+              type="text" 
+              id="messageInput"
+              placeholder="输入消息..." 
+              class="flex-1 bg-transparent px-4 py-2.5 text-sm outline-none"
+              style="color: var(--fg-primary);"
+              aria-label="消息输入框"
+            >
+          </div>
+          <button 
+            id="sendBtn"
+            class="btn-send w-9 h-9 rounded-full flex items-center justify-center"
+            style="background: var(--accent); color: var(--bg-primary);"
+            aria-label="发送消息"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 状态栏：作者主页 + 就绪 -->
+        <div class="flex items-center justify-between mt-3 px-1">
+          <a 
+            href="https://18156327558.github.io"
+            class="link-btn inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full"
+            style="color: var(--fg-secondary);"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            作者主页
+          </a>
+          <div class="flex items-center gap-2">
+            <span id="statusDot" class="status-dot w-1.5 h-1.5 rounded-full" style="background: var(--accent);"></span>
+            <span id="statusText" class="text-xs" style="color: var(--fg-secondary);">就绪</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center text-xs mt-4" style="color: var(--fg-secondary);">
+      按 Enter 发送
+    </p>
+  </div>
+
+  <script>
+    // ===== API 配置 =====
+    const API_BASE = 'https://gen.pollinations.ai/v1';
+    const API_KEY  = 'sk_eRMBgnfo3X3M2yLCPYHetWZtpnerB3Lo';
+    const MODEL    = 'YoannDev90/diffusiongemma-26b-a4b-it:free';
+
+    // DOM
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn      = document.getElementById('sendBtn');
+    const chatArea     = document.getElementById('chatArea');
+    const thinkingBubble = document.getElementById('thinkingBubble');
+    const statusDot    = document.getElementById('statusDot');
+    const statusText   = document.getElementById('statusText');
+
+    // 状态
+    let isRequesting = false;
+
+    // 设置状态
+    function setStatus(type, text) {
+      statusText.textContent = text;
+      statusText.style.opacity = type === 'ready' ? '0.7' : '1';
+      statusDot.style.background = '#495057';
+    }
+
+    // 发送消息
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text || isRequesting) return;
+
+      // 用户消息
+      const userBubble = document.createElement('div');
+      userBubble.className = 'chat-bubble';
+      userBubble.innerHTML = `
+        <div class="flex items-start gap-3 justify-end">
+          <div class="flex-1 flex flex-col items-end">
+            <div class="rounded-[12px] rounded-br-sm p-3 max-w-[85%]" style="background: var(--accent); color: var(--bg-primary);">
+              <p class="text-sm leading-relaxed">${escapeHtml(text)}</p>
+            </div>
+            <span class="text-xs mt-1.5 block" style="color: var(--fg-secondary);">刚刚</span>
+          </div>
+        </div>
+      `;
+      chatArea.appendChild(userBubble);
+      messageInput.value = '';
+
+      // 显示思考中
+      thinkingBubble.classList.remove('hidden');
+      setStatus('working', '请求中...');
+      scrollToBottom();
+
+      try {
+        isRequesting = true;
+
+        const res = await fetch(`${API_BASE}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: [
+              {
+                role: 'system',
+                content: '你是"韦史妈妈"，一个温暖、有耐心的中文助手。请用自然、亲切的口吻回复。'
+              },
+              {
+                role: 'user',
+                content: text
+              }
+            ]
+          })
+        });
+
+        if (!res.ok) {
+          const errText = await res.text().catch(() => '');
+          throw new Error(`HTTP ${res.status} ${res.statusText} ${errText}`.trim());
         }
-        
-        function addMessage(content, type) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            
-            const avatarImg = document.createElement('img');
-            avatarImg.src = type === 'user' 
-                ? 'https://placehold.co/50x50/667eea/ffffff?text=我' 
-                : 'https://t1.chatglm.cn/file/6a772c25803aaa59192dcc58.png?expired_at=1786626992&sign=459373dc3e2c3add3fe6852dac5a819a&ext=png';
-            avatarImg.alt = type === 'user' ? '用户头像' : '韦史妈妈';
-            avatarImg.className = 'message-avatar';
-            
-            const bubbleDiv = document.createElement('div');
-            bubbleDiv.className = 'message-bubble';
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = content;
-            
-            const timeDiv = document.createElement('div');
-            timeDiv.className = 'message-time';
-            timeDiv.textContent = new Date().toLocaleTimeString('zh-CN', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-            
-            bubbleDiv.appendChild(contentDiv);
-            bubbleDiv.appendChild(timeDiv);
-            
-            messageDiv.appendChild(avatarImg);
-            messageDiv.appendChild(bubbleDiv);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-    </script>
+
+        const data = await res.json();
+        const content = data?.choices?.[0]?.message?.content || '（模型未返回内容）';
+
+        // 回复消息
+        const replyBubble = document.createElement('div');
+        replyBubble.className = 'chat-bubble';
+        replyBubble.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+              <img src="https://t1.chatglm.cn/file/6a772c25803aaa59192dcc58.png?expired_at=1786977376&sign=c9888e6215e6e4ee51156a493a53a531&ext=png" 
+                   alt="韦史妈妈" 
+                   class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <div class="rounded-[12px] rounded-tl-sm p-3" style="background: var(--bg-secondary);">
+                <p class="text-sm leading-relaxed" style="color: var(--fg-primary);">${escapeHtml(content)}</p>
+              </div>
+              <span class="text-xs mt-1.5 block" style="color: var(--fg-secondary);">刚刚</span>
+            </div>
+          </div>
+        `;
+        chatArea.appendChild(replyBubble);
+
+        setStatus('ready', '就绪');
+      } catch (err) {
+        console.error(err);
+
+        const errorBubble = document.createElement('div');
+        errorBubble.className = 'chat-bubble';
+        errorBubble.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+              <img src="https://t1.chatglm.cn/file/6a772c25803aaa59192dcc58.png?expired_at=1786977376&sign=c9888e6215e6e4ee51156a493a53a531&ext=png" 
+                   alt="韦史妈妈" 
+                   class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <div class="rounded-[12px] rounded-tl-sm p-3" style="background: #FFF0F0; border: 1px solid #FF0000;">
+                <p class="text-sm leading-relaxed" style="color: #FF0000;">请求失败：${escapeHtml(err.message)}</p>
+              </div>
+              <span class="text-xs mt-1.5 block" style="color: var(--fg-secondary);">刚刚</span>
+            </div>
+          </div>
+        `;
+        chatArea.appendChild(errorBubble);
+
+        setStatus('error', '请求失败');
+      } finally {
+        isRequesting = false;
+        thinkingBubble.classList.add('hidden');
+        scrollToBottom();
+      }
+    }
+
+    // 滚动到底部
+    function scrollToBottom() {
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    // HTML 转义
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // 事件绑定
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // 初始状态
+    setStatus('ready', '就绪');
+  </script>
 </body>
 </html>
