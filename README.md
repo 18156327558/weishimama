@@ -4,4 +4,11 @@
 
 详情请看     18156327558.github.io/weishimama
 
-<img width="1596" height="813" alt="屏幕截图 2026-08-13 122420" src="https://github.com/user-attachments/assets/f4f182d1-7aec-4fa5-a740-bbd8019233f5" />
+<图片宽度="1596" 高度="813" 替代文本="屏幕截图 2026-08-13 122420" 源地址="https://github.com/user-attachments/assets/f4f182d1-7aec-4fa5-a740-bbd8019233f5" />
+
+------------------------------------------------------------------
+这是2.0版本。于2026.08.13日完成。
+
+详情请看     18156327558.github.io/weishimama
+
+<img width="1481" height="782" alt="屏幕截图 2026-08-13 200025" src="https://github.com/user-attachments/assets/68f3d4e3-5ec8-47d4-8a81-df0aebd9de60" />
